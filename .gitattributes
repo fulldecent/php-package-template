@@ -10,6 +10,8 @@
 /.php-version export-ignore
 /.prettierignore export-ignore
 /composer.lock export-ignore
+/dist export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
 /tests export-ignore
+/vendor export-ignore
