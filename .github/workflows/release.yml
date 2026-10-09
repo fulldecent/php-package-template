@@ -9,6 +9,7 @@
 # One-time setup
 #   1. Go to GitHub repo > Settings > General > Releases > Enable release immutability.
 #   2. Go to GitHub repo > Settings > Actions > General > Workflow permissions: Read and write permissions.
+#   3. On that same page, check "Allow GitHub Actions to create and approve pull requests".
 #
 # Public repositories can use attest for free. Private repos require Enterprise Cloud.
 #

@@ -201,6 +201,8 @@ Packagist installs this library from the git tag. Submit the repository once at 
 
 Copy the workflows in [.github/workflows](.github/workflows). Leave your package name, source, and `php` constraint alone. Set [.php-version](.php-version) to a PHP release that satisfies that constraint. This template pins 8.5 because Cents requires 8.5. CI installs the version in that file.
 
+If you run Composer on a newer PHP than that constraint, set `config.platform.php` to the newest patch of the minimum version, such as `8.3.99`. Otherwise `composer update` can lock a dependency that requires the newer PHP, and CI fails when it installs the version in `.php-version`.
+
 Release Please continues from the latest tag shaped like `v1.2.3`. Composer and Packagist treat that tag as version 1.2.3. A tag shaped like `1.2.3` does not count, and Release Please would start again at 1.0.0. Point a `v1.2.3` tag at the commit your latest version already uses. From a clone that has the old tag:
 
 ```sh
