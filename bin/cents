@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use FullDecent\Cents\Cents;
+
+try {
+    $arguments = $_SERVER['argv'] ?? null;
+    if (!is_array($arguments)) {
+        throw new InvalidArgumentException('arguments are missing');
+    }
+
+    // $_SERVER values are mixed. The command only accepts strings.
+    $parts = [];
+    foreach (array_slice($arguments, 1) as $argument) {
+        if (!is_string($argument)) {
+            throw new InvalidArgumentException('arguments must be strings');
+        }
+        $parts[] = $argument;
+    }
+
+    $input = implode(' ', $parts);
+    fwrite(STDOUT, Cents::evaluate($input) . "\n");
+} catch (InvalidArgumentException $exception) {
+    fwrite(STDERR, $exception->getMessage() . "\n");
+    exit(1);
+}

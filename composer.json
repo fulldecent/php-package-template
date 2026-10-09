@@ -1,0 +1,37 @@
+{
+  "name": "fulldecent/cents",
+  "description": "Add and subtract money kept as integer cents.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.5"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "phpstan/phpstan": "^2.0",
+    "phpunit/phpunit": "^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "FullDecent\\Cents\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FullDecent\\Cents\\Tests\\": "tests/"
+    }
+  },
+  "bin": [
+    "bin/cents"
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check": [
+      "php-cs-fixer fix --dry-run --diff",
+      "phpstan analyse --no-progress --memory-limit=1G"
+    ]
+  }
+}
