@@ -12,6 +12,10 @@
 #
 # Public repositories can use attest for free. Private repos require Enterprise Cloud.
 #
+# skip-github-release stops Release Please from creating the tag.
+# The publish job creates the tag with gh release create. Packagist follows that tag.
+# Release Please recognizes tags shaped like v1.2.3. A tag shaped like 1.2.3 does not count.
+#
 # Check a published file:
 #   gh release verify OWNER/REPO v1.2.3
 #   gh attestation verify ./cents.zip -R OWNER/REPO

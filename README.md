@@ -191,9 +191,24 @@ Use `fix:`, `feat:` or `BREAKING CHANGE:` in your commit messages. This triggers
 
 The [release workflow](.github/workflows/release.yml) uses Release Please's `simple` release type. It does not need a release-please config file. Do not add a `version` field to [composer.json](composer.json) in the release pull request. The tag is the version.
 
-[Build and test](.github/workflows/build-test.yml) installs dependencies, checks style and types, runs tests, packs `cents.zip`, then attests and uploads it. The release includes `cents.zip` and `release.sigstore.jsonl`, containing build provenance and version attestations. The zip filename has no version in it. The version is the tag, and the attestation records that version without a leading `v`.
+A commit on `main` whose message starts with `fix:` opens or updates a release pull request that bumps the patch version. `feat:` bumps the minor version. `BREAKING CHANGE:` bumps the major version. One release pull request collects every such commit since the last `v` tag. A commit with any other prefix, including `chore:` and `docs:`, does not open that pull request. Merging the release pull request is the release. Release Please writes [CHANGELOG.md](CHANGELOG.md) in that pull request and does not create the tag. The publish job creates the tag.
 
-Packagist installs this library from the git tag after you submit the repository once at [packagist.org](https://packagist.org/packages/submit). Packagist does not serve the attested zip. The zip is the GitHub Release asset.
+[Build and test](.github/workflows/build-test.yml) installs dependencies, checks style and types, runs tests, packs the zip, then attests and uploads it. The zip name comes from the Composer package name, the part after the slash. This package is `fulldecent/cents`, so the release includes `cents.zip` and `release.sigstore.jsonl`, containing build provenance and version attestations. The zip filename has no version in it. The version is the tag, and the attestation records that version without a leading `v`.
+
+Packagist installs this library from the git tag. Submit the repository once at [packagist.org](https://packagist.org/packages/submit) and connect the GitHub hook ([how to update packages](https://packagist.org/about#how-to-update-packages)). Each tag the publish job pushes then becomes a Packagist version. `composer require fulldecent/cents` installs that version. The workflow does not send a Packagist token. Packagist does not serve the attested zip. The zip is the GitHub Release asset.
+
+### An existing package
+
+Copy the workflows in [.github/workflows](.github/workflows). Leave your package name, source, and `php` constraint alone. Set [.php-version](.php-version) to a PHP release that satisfies that constraint. This template pins 8.5 because Cents requires 8.5. CI installs the version in that file.
+
+Release Please continues from the latest tag shaped like `v1.2.3`. Composer and Packagist treat that tag as version 1.2.3. A tag shaped like `1.2.3` does not count, and Release Please would start again at 1.0.0. Point a `v1.2.3` tag at the commit your latest version already uses. From a clone that has the old tag:
+
+```sh
+git tag v1.2.3 "1.2.3^{}"
+git push origin v1.2.3
+```
+
+`1.2.3^{}` is that tag's commit. The new tag is the same commit, which is the version Packagist already publishes. The next `fix:` or `feat:` commit after that tag opens the release pull request.
 
 > [!NOTE]
 > In your GitHub repository settings, under Actions, General, Workflow permissions, select read and write permissions and check "Allow GitHub Actions to create and approve pull requests". Under General, Releases, enable release immutability. Attestations are available for public repositories; private repositories require GitHub Enterprise Cloud.

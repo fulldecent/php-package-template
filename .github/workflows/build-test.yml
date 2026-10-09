@@ -53,10 +53,15 @@ jobs:
       - name: Test
         run: composer test
 
+      # The zip name is the composer package name, after the vendor slash.
+      # fulldecent/cents becomes cents.zip. A package that copies this workflow
+      # keeps its own composer.json name and does not edit this step.
       - name: Pack
         run: |
           mkdir -p dist
-          composer archive --format=zip --dir=dist --file=cents
+          raw=$(composer config name)
+          name=${raw##*/}
+          composer archive --format=zip --dir=dist --file="$name"
 
       - name: Attest the build
         id: attest
