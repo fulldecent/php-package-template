@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/fulldecent/php-package-template/compare/v1.0.0...v1.1.0) (2026-10-09)
+
+
+### Features
+
+* derive the release zip name and document existing packages ([fabd870](https://github.com/fulldecent/php-package-template/commit/fabd87045b091f87af183d5f37ef0b77888f4b58))
+
 ## 1.0.0 (2026-10-09)
 
 
